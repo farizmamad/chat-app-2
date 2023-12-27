@@ -1,6 +1,6 @@
-import { ConnectedSocket, MessageBody, SubscribeMessage, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
+import { MessageBody, SubscribeMessage, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
 import { ChatsService } from './chats.service';
-import { Server, Socket } from 'socket.io';
+import { Server } from 'socket.io';
 import { SendMessageDto } from './dto/send-message.dto';
 
 @WebSocketGateway()
@@ -12,7 +12,7 @@ export class ChatsGateway {
 
   @SubscribeMessage('sendMessage')
   handleSendMessage(@MessageBody() data: SendMessageDto) {
-    this.server.sockets.emit('receiveMessage', data);
+    this.chatsService.emitMessage(data);
     return { data };
   }
 }

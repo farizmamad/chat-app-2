@@ -1,11 +1,22 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import * as express from 'express';
-import * as path from 'path';
+import { Transport } from '@nestjs/microservices';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.use('/', express.static(path.join(__dirname, '../public')));
+
+  app.connectMicroservice({
+    transport: Transport.RMQ,
+    options: {
+      urls: ['amqp://0.0.0.0:5672'],
+      queue: 'chatText',
+      queueOptions: {
+        durable: false
+      },
+    },
+  });
+
+  await app.startAllMicroservices();
   await app.listen(3000);
   console.log(`Application is running on: ${await app.getUrl()}`);
 }
