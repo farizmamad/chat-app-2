@@ -15,4 +15,8 @@ export class ChatsGateway {
     this.chatsService.emitMessage(data);
     return { data };
   }
+
+  async handleMessageSent(data: SendMessageDto) {
+    this.chatsService.handleMessageSent(this.server, data)
+  }
 }

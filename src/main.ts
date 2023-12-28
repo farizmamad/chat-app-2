@@ -11,7 +11,7 @@ async function bootstrap() {
       urls: ['amqp://0.0.0.0:5672'],
       queue: 'chatText',
       queueOptions: {
-        durable: false
+        durable: true,
       },
     },
   });
