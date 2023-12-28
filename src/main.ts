@@ -8,7 +8,7 @@ async function bootstrap() {
   app.connectMicroservice({
     transport: Transport.RMQ,
     options: {
-      urls: ['amqp://0.0.0.0:5672'],
+      urls: ['amqp://rabbitmq:5672/vhost_1'],
       queue: 'chatText',
       queueOptions: {
         durable: true,

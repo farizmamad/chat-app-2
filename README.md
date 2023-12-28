@@ -10,31 +10,49 @@ A chat app build on top of Node.js (NestJS) using socket communication and messa
 $ npm install
 ```
 
-## Running the app
-
+## create user-defined network
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+$ docker network create chat_app_net
 ```
 
-## Test
+## Run RabbitMQ in docker with user-defined network
+```bash
+$ docker run -d --network chat_app_net --hostname rabbitmqhost \
+   --name rabbitmq -p 15672:15672 -p 5672:5672 rabbitmq:3-management
+```
+
+## Build docker image for chat-app
+Build docker image for the chat-app
 
 ```bash
-# unit tests
-$ npm run test
+$ docker build -t my-chat-app  -t my-chat-app:0.0.1 .
 
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+# example
+$ docker build -t farizmamad/chat-app-2  -t farizmamad/chat-app-2:0.0.1 .
 ```
+
+## Change the Docker provider host to the DOCKER ENDPOINT of your Docker Desktop
+```bash
+$ docker context ls
+```
+Then copy the value of DOCKER ENDOPOINT of the context with DESCRIPTION = Docker Desktop.
+Paste the value to main.tf provider "docker" host.
+
+```bash
+# example
+provider "docker" {
+  host = "unix:///Users/home/.docker/run/docker.sock"
+}
+```
+
+## Apply Terraform
+
+```bash
+$ terraform apply
+```
+
+## Open Postman
+
 
 ## Stay in touch
 
