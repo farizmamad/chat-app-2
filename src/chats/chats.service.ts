@@ -6,7 +6,16 @@ import { WebSocketServer } from '@nestjs/websockets';
 
 @Injectable()
 export class ChatsService {
-  @Client({ transport: Transport.RMQ, options: { queue: 'chatText' } })
+  @Client({
+    transport: Transport.RMQ,
+    options: {
+      urls: ['amqp://rabbitmq:5672/vhost_1'],
+      queue: 'chatText',
+      queueOptions: {
+        durable: true,
+      },
+    }
+  })
   client: ClientProxy;
 
   async emitMessage(data: SendMessageDto) {
