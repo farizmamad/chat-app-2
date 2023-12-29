@@ -12,12 +12,22 @@ export class ChatsGateway {
 
   @SubscribeMessage('connection')
   handleConnection(socket: Socket) {
-    console.log(`${socket.id} joined`);
+    const message = `${socket.id} joined`;
+    const data: SendMessageDto = {
+      text: message,
+      senderId: socket.id,
+    };
+    this.chatsService.emitMessage(data);
   }
 
   @SubscribeMessage('disconnect')
   handleDisconnect(socket: Socket) {
-    console.log(`${socket.id} left`);
+    const message = `${socket.id} left`;
+    const data: SendMessageDto = {
+      text: message,
+      senderId: socket.id,
+    };
+    this.chatsService.emitMessage(data);
   }
 
   @SubscribeMessage('sendMessage')

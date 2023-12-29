@@ -25,7 +25,8 @@ First, inspect if the image already exists.
 $ docker inspect farizmamad/chat-app-2
 ```
 
-if it responses with `Error: No such object: farizmamad/chat-app-2`, then run the command below. Otherwise, skip it.
+If it responses with `Error: No such object: farizmamad/chat-app-2`, then run the command below. Otherwise, skip it.
+If the code just changed and needs to be updated to the docker image, then first delete the existing container and image of `farizmamad/chat-app-2`. Then run the command below.
 
 ```bash
 $ docker build -t farizmamad/chat-app-2  -t farizmamad/chat-app-2:0.0.1 .
