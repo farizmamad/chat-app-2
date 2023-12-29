@@ -4,19 +4,30 @@
 
 A chat app build on top of Node.js (NestJS) using socket communication and message queue.
 
+## Open terminal
+
 ## Installation
 
 ```bash
 $ npm install
 ```
 
+## Open Docker Desktop
+```bash
+$ open -a Docker
+```
+
 ## Build docker image for chat-app
-Build docker image for the chat-app. Here presented the template. Replace `my-chat-app` with your image name.
+Build docker image for the chat-app. Here presented the template image name `farizmamad/chat-app-2`.
+
+First, inspect if the image already exists.
+```bash
+$ docker inspect farizmamad/chat-app-2
+```
+
+if it responses with `Error: No such object: farizmamad/chat-app-2`, then run the command below. Otherwise, skip it.
 
 ```bash
-$ docker build -t my-chat-app  -t my-chat-app:0.0.1 .
-
-# example
 $ docker build -t farizmamad/chat-app-2  -t farizmamad/chat-app-2:0.0.1 .
 ```
 
