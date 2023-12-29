@@ -12,6 +12,6 @@ export class ChatsService {
   }
 
   async handleMessageSent(server: Server, data: SendMessageDto) {
-    server.sockets.emit('receiveMessage', data);
+    server.sockets.except(data.senderId).emit('receiveMessage', data.text);
   }
 }

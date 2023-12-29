@@ -1,6 +1,6 @@
-import { MessageBody, SubscribeMessage, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
+import { ConnectedSocket, MessageBody, SubscribeMessage, WebSocketGateway, WebSocketServer, WsException } from '@nestjs/websockets';
 import { ChatsService } from './chats.service';
-import { Server } from 'socket.io';
+import { Server, Socket } from 'socket.io';
 import { SendMessageDto } from './dto/send-message.dto';
 
 @WebSocketGateway()
@@ -10,8 +10,23 @@ export class ChatsGateway {
 
   constructor(private readonly chatsService: ChatsService) {}
 
+  @SubscribeMessage('connection')
+  handleConnection(socket: Socket) {
+    console.log(`${socket.id} joined`);
+  }
+
+  @SubscribeMessage('disconnect')
+  handleDisconnect(socket: Socket) {
+    console.log(`${socket.id} left`);
+  }
+
   @SubscribeMessage('sendMessage')
-  handleSendMessage(@MessageBody() data: SendMessageDto) {
+  handleSendMessage(@ConnectedSocket() socket: Socket, @MessageBody() message: string) {
+    if (!socket) throw new WsException('No socket connected');
+    const data: SendMessageDto = {
+      senderId: socket.id,
+      text: message,
+    };
     this.chatsService.emitMessage(data);
     return { data };
   }
