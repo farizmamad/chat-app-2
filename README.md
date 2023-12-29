@@ -99,7 +99,18 @@ If a prompt asked `Do you want to perform these actions?`, Enter `yes`. Then, wa
 The end remarks should be `Apply complete! Resources: 1 added, 0 changed, 0 destroyed.`.
 
 ## Open Websocket/socket.io client
-For example: Postman.
+Here presented prepare the client using `Postman`.
+1. Open Postman.
+2. Go to sidebar menu `Collections`.
+3. Create new collection named `chat-api-2`.
+4. Right click on the collection `chat-api-2`, choose `Add request`, choose `Socket.IO`.
+5. Give the request name `client 1`.
+6. Repeat the steps 4-5 with different request name to create multiple clients.
+7. In each clients, enter URL `http://[::1]:3000`. Then, click `connect`.
+8. In each clients, go to `Events` tab. Add new `Events` = `receiveMessage`. Set `LISTEN` toggle on for this event.
+9. Go to 1 client. Go to `Message` tab. Try to send text message to event `SendMessage`.
+10. After successfully send message from 1 client, check the other clients. The other clients should receive the message.
+11. Repeat step 9-10 by sending message from another client.
 
 ## Stay in touch
 
