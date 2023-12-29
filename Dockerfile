@@ -13,6 +13,10 @@ FROM node:${NODE_VERSION}-alpine as base
 # Set working directory for all build stages.
 WORKDIR /usr/src/app
 
+ENV PORT=3000
+ENV RABBITMQ_URL="amqp://rabbitmq:5672/vhost_1"
+ENV RABBITMQ_QUEUE=chatText
+
 
 ################################################################################
 # Create a stage for installing production dependecies.

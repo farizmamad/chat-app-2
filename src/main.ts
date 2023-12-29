@@ -1,15 +1,22 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { Transport } from '@nestjs/microservices';
+import { ConfigService } from '@nestjs/config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  const configService = app.get(ConfigService);
+
+  // connect to RabbitMQ
+  const rabbitmqUrl = configService.get<string>('rabbitmq.url');
+  const rabbitmqQueue = configService.get<string>('rabbitmq.queue');
+
   app.connectMicroservice({
     transport: Transport.RMQ,
     options: {
-      urls: ['amqp://rabbitmq:5672/vhost_1'],
-      queue: 'chatText',
+      urls: [rabbitmqUrl],
+      queue: rabbitmqQueue,
       queueOptions: {
         durable: true,
       },
@@ -17,7 +24,9 @@ async function bootstrap() {
   });
 
   await app.startAllMicroservices();
-  await app.listen(3000);
+
+  const port = configService.get<number>('port');
+  await app.listen(port);
   console.log(`Application is running on: ${await app.getUrl()}`);
 }
 bootstrap();

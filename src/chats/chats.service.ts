@@ -1,22 +1,11 @@
-import { Injectable } from '@nestjs/common';
-import { Client, ClientProxy, Transport } from '@nestjs/microservices';
+import { Inject, Injectable } from '@nestjs/common';
+import { ClientProxy } from '@nestjs/microservices';
 import { SendMessageDto } from './dto/send-message.dto';
 import { Server } from 'socket.io';
-import { WebSocketServer } from '@nestjs/websockets';
 
 @Injectable()
 export class ChatsService {
-  @Client({
-    transport: Transport.RMQ,
-    options: {
-      urls: ['amqp://rabbitmq:5672/vhost_1'],
-      queue: 'chatText',
-      queueOptions: {
-        durable: true,
-      },
-    }
-  })
-  client: ClientProxy;
+  constructor(@Inject('QUEUE_SERVICE') private client: ClientProxy) {}
 
   async emitMessage(data: SendMessageDto) {
     this.client.emit<number>('messageSent', data);

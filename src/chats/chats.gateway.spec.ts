@@ -7,7 +7,14 @@ describe('BroadcastersGateway', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [ChatsGateway, ChatsService],
+      providers: [
+        {
+          provide: 'QUEUE_SERVICE',
+          useValue: {},
+        },
+        ChatsGateway,
+        ChatsService,
+      ],
     }).compile();
 
     gateway = module.get<ChatsGateway>(ChatsGateway);
