@@ -1,6 +1,7 @@
 .env
 
 # compiled output
+/.terraform
 /dist
 /node_modules
 
