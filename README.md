@@ -14,7 +14,7 @@ $ npm install
 
 ## Open Docker Desktop
 ```bash
-$ open -a Docker
+$ open -a docker
 ```
 
 ## Build docker image for chat-app
